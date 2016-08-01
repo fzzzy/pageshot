@@ -1,0 +1,41 @@
+#!/usr/bin/env node
+
+var request = require("request");
+var jwt = require("jsonwebtoken");
+
+var manifest = require(__dirname + "/../package.json");
+
+var signedOpts = {
+  url: 'https://addons.mozilla.org/api/v3/addons/@' + manifest.name + '/versions/'+manifest.version+ '/',
+  headers: {
+    "Authorization": "JWT " + jwt.sign(
+      {iss: process.env['AMO_USER']},
+      process.env['AMO_SECRET'],
+      {
+        algorithm: "HS256",
+        expiresIn: 60
+      }
+    )
+  }
+};
+
+request(signedOpts, function signCb(err, resp, body) {
+  if (!err && resp.statusCode == 200) {
+    var info = JSON.parse(body);
+    if (info.files.length) {
+      var ws = fs.createWriteStream(
+        "addon.xpi"
+      ).on(
+        "finish", distAddonSigned
+      );
+      signedOpts.url = info.files[0].download_url;
+      request(signedOpts).pipe(ws);
+    }
+  } else {
+    console.error("Could not sign addon:", err, resp.statusCode, resp.body);
+  }
+});
+
+function distAddonSigned() {
+  console.log("distAddonSigned");
+}

@@ -205,7 +205,7 @@ const ui = (function () { // eslint-disable-line no-unused-vars
         <div class="pageshot-preview-instructions">
           Drag or click on the page to select a region. Press ESC to cancel.
         </div>
-        <div class="pageshot-myshots">
+        <div class="pageshot-myshots pageshot-myshots-button">
           <div class="pageshot-pre-myshots"></div>
           <div class="pageshot-myshots-text">My Shots</div>
           <div class="pageshot-post-myshots"></div>
@@ -315,6 +315,11 @@ const ui = (function () { // eslint-disable-line no-unused-vars
         this.el.classList.add("pageshot-small-selection");
       } else {
         this.el.classList.remove("pageshot-small-selection");
+      }
+      if (docHeight - pos.bottom < 50) {
+        this.el.classList.add("pageshot-bottom-selection");
+      } else {
+        this.el.classList.remove("pageshot-bottom-selection");
       }
       this.el.style.top = (pos.top - bodyRect.top) + "px";
       this.el.style.left = (pos.left - bodyRect.left) + "px";

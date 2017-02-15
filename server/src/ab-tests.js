@@ -15,7 +15,7 @@ let allTests = {
     version: 1,
     exclude: ["highlightButtonOnInstall", "autoOpenSharePanel"],
     options: [
-      {name: "bright", probability: 0.0}
+      {name: "bright", probability: 0.111}
     ]
   },
   autoOpenSharePanel: {
@@ -25,7 +25,7 @@ let allTests = {
     version: 1,
     exclude: ["styleMyShotsButton", "highlightButtonOnInstall"],
     options: [
-      {name: "autoopen", probability: 0.1}
+      {name: "autoopen", probability: 0.125}
     ]
   }
 };
